@@ -60,6 +60,8 @@
     <Compile Include="Rendering\Lighting\PointLightSystem.cs" />
     <Compile Include="Rendering\Lighting\ShadowCastingLight.cs" />
     <Compile Include="Rendering\Lighting\ShadowCastingLightSystem.cs" />
+    <Compile Include="Rendering\Lighting\ShadowingLight.cs" />
+    <Compile Include="Rendering\Lighting\ShadowSystem.cs" />
     <Compile Include="Rendering\Primitives\Quad.cs" />
     <Compile Include="Rendering\RenderSystem.cs" />
     <Compile Include="Scenes\AScene.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Units\Distance.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Utilities\ColorUtilities.cs" />
+    <Compile Include="Utilities\ModelExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">

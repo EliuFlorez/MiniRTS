@@ -121,7 +121,7 @@ namespace MiniEngine
             if (this.KeyboardInput.Click(Keys.LeftControl))
             {
                 this.renderSystem.EnableFXAA = !this.renderSystem.EnableFXAA;                
-            }
+            }            
 
             // HACK: dropping some lights
             var selectedScene = this.scenes[this.currentSceneIndex];
@@ -136,6 +136,11 @@ namespace MiniEngine
             {
                 var light = new ShadowCastingLight(this.GraphicsDevice, this.camera.Position, this.camera.LookAt, Color.White);
                 selectedScene.ShadowCastingLights.Add(light);
+            }
+
+            if (this.KeyboardInput.Click(Keys.H))
+            {
+                this.renderSystem.ShadowingLight.Direction = this.camera.LookAt - this.camera.Position;
             }
 
             this.cameraController.Update(gameTime.ElapsedGameTime);

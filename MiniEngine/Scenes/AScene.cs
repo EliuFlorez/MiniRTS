@@ -34,6 +34,8 @@ namespace MiniEngine.Scenes
         public abstract void LoadContent(ContentManager content);
 
         public abstract void Update(Seconds elapsed);
+        public abstract BoundingBox ComputeBoundingBox();
+        public abstract BoundingSphere ComputeBoundingSphere();
 
         public abstract void Draw(IViewPoint viewPoint);
         public abstract void Draw(Effect effectOverride, IViewPoint viewPoint);

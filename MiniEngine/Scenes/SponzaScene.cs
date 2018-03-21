@@ -1,15 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Runtime.Remoting.Messaging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MiniEngine.Rendering;
 using MiniEngine.Rendering.Lighting;
 using MiniEngine.Units;
+using MiniEngine.Utilities;
 using DirectionalLight = MiniEngine.Rendering.Lighting.DirectionalLight;
 
 namespace MiniEngine.Scenes
 {
     public sealed class SponzaScene : AScene
     {
+        private readonly Matrix WorldMatrix = Matrix.CreateScale(0.05f);
         private Model sponza;
         
         public SponzaScene(GraphicsDevice device)
@@ -34,14 +37,24 @@ namespace MiniEngine.Scenes
             
         }
 
+        public override BoundingBox ComputeBoundingBox()
+        {
+            return this.sponza.ComputeBoundingBox(this.WorldMatrix);
+        }
+
+        public override BoundingSphere ComputeBoundingSphere()
+        {
+            return this.sponza.ComputeBoundingSphere(this.WorldMatrix);
+        }
+
         public override void Draw(IViewPoint viewPoint)
         {
-            DrawModel(this.sponza, Matrix.CreateScale(0.05f), viewPoint);
+            DrawModel(this.sponza, this.WorldMatrix, viewPoint);
         }
 
         public override void Draw(Effect effectOverride, IViewPoint viewPoint)
         {
-            DrawModel(effectOverride, this.sponza, Matrix.CreateScale(0.05f), viewPoint);
+            DrawModel(effectOverride, this.sponza, this.WorldMatrix, viewPoint);
         }
 
         

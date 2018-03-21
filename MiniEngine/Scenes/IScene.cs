@@ -21,5 +21,8 @@ namespace MiniEngine.Scenes
         void Draw(Effect effectOverride, IViewPoint viewPoint);
         void LoadContent(ContentManager content);
         void Update(Seconds elapsed);
+
+        BoundingBox ComputeBoundingBox();
+        BoundingSphere ComputeBoundingSphere();
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniEngine.Rendering;
 using MiniEngine.Rendering.Lighting;
 using MiniEngine.Units;
+using MiniEngine.Utilities;
 using DirectionalLight = MiniEngine.Rendering.Lighting.DirectionalLight;
 
 namespace MiniEngine.Scenes
@@ -22,6 +23,15 @@ namespace MiniEngine.Scenes
             new Color(0, 128, 255),
             new Color(0, 0, 255)
         };
+
+        private readonly Matrix Ship1World = Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f);
+
+        private readonly Matrix LizardWorld = Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.05f)
+                                              * Matrix.CreateTranslation(Vector3.Left * 50);
+
+        private readonly Matrix Ship2World = Matrix.CreateRotationX(-MathHelper.PiOver2)
+                                             * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f)
+                                             * Matrix.CreateTranslation(Vector3.Right * 50);
 
         private Model lizard;
         private Model ship1;
@@ -65,18 +75,38 @@ namespace MiniEngine.Scenes
             //this.totalElapsed += elapsed;
         }
 
+        public override BoundingBox ComputeBoundingBox()
+        {
+            var a = this.ship1.ComputeBoundingBox(this.Ship1World);
+            var b = this.ship2.ComputeBoundingBox(this.Ship2World);
+            var c = this.lizard.ComputeBoundingBox(this.LizardWorld);
+
+
+            return BoundingBox.CreateMerged(BoundingBox.CreateMerged(a, b), c);
+        }
+
+        public override BoundingSphere ComputeBoundingSphere()
+        {
+            var a = this.ship1.ComputeBoundingSphere(this.Ship1World);
+            var b = this.ship2.ComputeBoundingSphere(this.Ship2World);
+            var c = this.lizard.ComputeBoundingSphere(this.LizardWorld);
+
+
+            return BoundingSphere.CreateMerged(BoundingSphere.CreateMerged(a, b), c);
+        }
+
         public override void Draw(IViewPoint viewPoint)
         {
-            DrawModel(this.ship1, Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f), viewPoint);
-            DrawModel(this.lizard, Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(Vector3.Left * 50), viewPoint);
-            DrawModel(this.ship2, Matrix.CreateRotationX(-MathHelper.PiOver2) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(Vector3.Right * 50), viewPoint);
+            DrawModel(this.ship1, this.Ship1World, viewPoint);
+            DrawModel(this.lizard, this.LizardWorld, viewPoint);
+            DrawModel(this.ship2, this.Ship2World, viewPoint);
         }
 
         public override void Draw(Effect effectOverride, IViewPoint viewPoint)
         {
-            DrawModel(effectOverride, this.ship1, Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f), viewPoint);
-            DrawModel(effectOverride, this.lizard, Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(Vector3.Left * 50), viewPoint);
-            DrawModel(effectOverride, this.ship2, Matrix.CreateRotationX(-MathHelper.PiOver2) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(Vector3.Right * 50), viewPoint);
+            DrawModel(effectOverride, this.ship1, this.Ship1World, viewPoint);
+            DrawModel(effectOverride, this.lizard, this.LizardWorld, viewPoint);
+            DrawModel(effectOverride, this.ship2, this.Ship2World, viewPoint);
         }
     }
 }
